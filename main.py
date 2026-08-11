@@ -2,8 +2,8 @@ import asyncio
 from flask import Flask
 from threading import Thread
 from telethon import TelegramClient, events
+from telethon.sessions import StringSession
 
-# Web Server Render akka hin cufamneef
 app = Flask('')
 
 @app.route('/')
@@ -13,13 +13,14 @@ def home():
 def run_web():
     app.run(host='0.0.0.0', port=8080)
 
-# Telegram Details
 API_ID = 27950357
 API_HASH = '2a0f544e66ca93ebef00a0dbea2fd706'
+SESSION_STRING = '1BJWap1wBu5GFducf48BvEuh3lRxj_cRpn3psrGfUEInpoVTb32j1de4XhWekPrkTaZMhsd_zfzDtXhdeON_51-WHy1paagYyKueAPfxSbZFYOfuLXcjxEHuOqnH9zBYPiM0ux0-UDjwCpBpjieHy_vAiY3gUQ-C0Zk1qCAu7Ewpxe2oQLTSVZK_d_7Fe1c6ezE9qNalXwMRiBE4rr1qDkSMtJP3xbTWVpErab9fuK7qzE4Y-yuUI-xQcyVHOih9ovV7EDDK_Kw3vXYLu-fqp585XoYQzMHsSNKeLvkepK2a7GizcvC87EwAXeBm_3PNtEvWsdtbeQ7iqQ_7yiRDixwylMI55jcU='
+
 SOURCE_CHANNEL = 'BurqaaIspoortii'
 MY_CHANNEL = 'Lalosport'
 
-client = TelegramClient('user_session', API_ID, API_HASH)
+client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
 @client.on(events.NewMessage(chats=SOURCE_CHANNEL))
 async def handler(event):
@@ -40,4 +41,3 @@ async def start_bot():
 if __name__ == '__main__':
     Thread(target=run_web).start()
     asyncio.run(start_bot())
-
