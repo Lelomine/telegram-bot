@@ -25,13 +25,19 @@ client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 @client.on(events.NewMessage(chats=SOURCE_CHANNEL))
 async def handler(event):
     text = event.raw_text or ""
+    
+    # Mention channel hiriyaa keetii bakka buusuu
     text = text.replace(f"@{SOURCE_CHANNEL}", f"@{MY_CHANNEL}")
     text = text.replace(SOURCE_CHANNEL, MY_CHANNEL)
     
+    # Postii HUNDA jalatti username channel keetii dabalataan galchuu
+    footer = f"\n\n📢 Join & Share: @{MY_CHANNEL}"
+    full_text = text + footer
+    
     if event.media:
-        await client.send_file(f"@{MY_CHANNEL}", event.media, caption=text)
+        await client.send_file(f"@{MY_CHANNEL}", event.media, caption=full_text)
     else:
-        await client.send_message(f"@{MY_CHANNEL}", text)
+        await client.send_message(f"@{MY_CHANNEL}", full_text)
 
 async def start_bot():
     print("Bot-ni kee hojii jalqabeera...")
